@@ -17,7 +17,6 @@ app.get('/api/health', (_req: Request, res: Response) => {
   res.send({ status: 'ok' });
 });
 
-
 io.on('connection', (socket) => {
   console.log('Client connected');
 
