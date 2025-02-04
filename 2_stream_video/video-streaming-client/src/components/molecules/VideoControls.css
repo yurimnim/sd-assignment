@@ -1,0 +1,15 @@
+.molecule-video-controls {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+  
+  .progress-bar {
+    flex-grow: 1;
+    margin: 0 1rem;
+  }
+  
+  .time-display {
+    font-size: 0.9rem;
+    color: #333;
+  }
