@@ -1,0 +1,3 @@
+.history
+// how to ignore all node_modules directories
+node_modules/

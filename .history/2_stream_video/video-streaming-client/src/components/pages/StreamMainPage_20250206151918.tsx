@@ -4,10 +4,9 @@ import VideoPlayer from '../atoms/VideoPlayer';
 import styled from '@emotion/styled';
 
 const StreamMainPage = () => {
-  
-  const [value, setValue] = useState('');
-  const [src, setSrc] = useState('');
-  const placeholder = '영상 주소를 입력해주세요.';
+  const [value, setValue] = useState('')
+  const [src, setSrc] = useState('')
+  const placeholder = '영상 주소를 입력해주세요.'
   
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value)

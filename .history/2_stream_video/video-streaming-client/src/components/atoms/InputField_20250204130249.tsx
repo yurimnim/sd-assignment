@@ -1,6 +1,5 @@
 import React from 'react';
-import { TextField } from '@mui/material';
-import styled from '@emotion/styled';
+import './InputField.css';
 
 export type InputFieldProps = {
   value: string;
@@ -10,7 +9,8 @@ export type InputFieldProps = {
 
 const InputField: React.FC<InputFieldProps> = ({ value, onChange, placeholder }) => {
   return (
-    <StyledTextField
+    <input
+      className="atom-input"
       type="text"
       value={value}
       onChange={onChange}
@@ -18,9 +18,5 @@ const InputField: React.FC<InputFieldProps> = ({ value, onChange, placeholder })
     />
   );
 };
-
-const StyledTextField = styled(TextField)({
-  width: '100%',
-});
 
 export default InputField;

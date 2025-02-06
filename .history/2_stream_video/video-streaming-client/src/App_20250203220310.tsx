@@ -1,10 +1,10 @@
 import './App.css'
-import StreamMainPage from './components/pages/StreamMainPage'
 
 function App() {
+
   return (
     <>
-      <StreamMainPage />
+      <h1>Video Streaming Client</h1>
     </>
   )
 }
