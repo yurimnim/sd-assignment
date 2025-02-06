@@ -22,13 +22,15 @@ const InputArea = ({ value, onChange, placeholder, onClick }: InputAreaProps) =>
 const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
-    align-items: stretch;
+    align-items: center;
     justify-content: center;
     gap: 10px;
     min-width: 50%;
-    height: 56px;
+    max-height: 50px;
+    border: 1px solid #000000;
     border-radius: 5px;
-    margin: 50px 0;
+    padding: 10px;
+    margin: 80px 0;
 `
 
 export default InputArea

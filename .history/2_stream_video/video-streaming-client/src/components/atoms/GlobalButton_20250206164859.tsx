@@ -22,10 +22,6 @@ const StyledButton = styled(Button)({
   fontSize: '15px',
   boxShadow: 'none',
   height: '100%',
-
-  '&:hover': {
-    boxShadow: 'none',
-  },
 });
 
 export default GlobalButton;

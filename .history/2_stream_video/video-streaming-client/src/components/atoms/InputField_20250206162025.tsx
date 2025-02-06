@@ -22,7 +22,7 @@ const InputField: React.FC<InputFieldProps> = ({ value, onChange, placeholder })
 
 const StyledTextField = styled(TextField)({
   width: '100%',
-  height: '100%',
+  height: '60px',
 });
 
 export default InputField;

@@ -18,22 +18,20 @@ const VideoContainer = styled(Paper)`
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
-  height: 500px;
-  max-height: 700px;
+  max-width: 800px;
   margin: 0 auto;
-  border: 1px solid #000;
 
   /* video 요소의 크기 조절 */
   & video {
     width: 100%;
     height: auto;
+    max-height: 500px;
   }
 `;
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ src }) => {
   return (
-    <VideoContainer elevation={2}>
+    <VideoContainer elevation={3}>
       <MediaPlayer title="title" src={src}>
         <MediaProvider />
           <DefaultVideoLayout icons={defaultLayoutIcons} />

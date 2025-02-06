@@ -10,7 +10,7 @@ export type ButtonProps = {
 const GlobalButton: React.FC<ButtonProps> = ({ text, onClick }) => {
   return (
     <>
-      <StyledButton variant="contained" color='secondary' size="large" onClick={onClick} disableRipple>
+      <StyledButton variant="outlined" size="large" onClick={onClick}>
         {text}
       </StyledButton>
     </>
@@ -19,13 +19,9 @@ const GlobalButton: React.FC<ButtonProps> = ({ text, onClick }) => {
 
 const StyledButton = styled(Button)({
   width: '80px',
+  height: '30px',
   fontSize: '15px',
-  boxShadow: 'none',
-  height: '100%',
 
-  '&:hover': {
-    boxShadow: 'none',
-  },
 });
 
 export default GlobalButton;

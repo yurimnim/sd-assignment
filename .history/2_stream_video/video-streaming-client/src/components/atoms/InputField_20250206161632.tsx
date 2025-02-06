@@ -15,7 +15,6 @@ const InputField: React.FC<InputFieldProps> = ({ value, onChange, placeholder })
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      size="medium"
     />
   );
 };

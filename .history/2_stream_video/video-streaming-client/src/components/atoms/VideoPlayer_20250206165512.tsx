@@ -20,7 +20,6 @@ const VideoContainer = styled(Paper)`
   width: 100%;
   max-width: 1200px;
   height: 500px;
-  max-height: 700px;
   margin: 0 auto;
   border: 1px solid #000;
 

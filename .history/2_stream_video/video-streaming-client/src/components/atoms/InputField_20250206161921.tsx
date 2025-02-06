@@ -15,14 +15,14 @@ const InputField: React.FC<InputFieldProps> = ({ value, onChange, placeholder })
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      size="medium"
+      size="small"
     />
   );
 };
 
 const StyledTextField = styled(TextField)({
   width: '100%',
-  height: '100%',
+  height: '50px',
 });
 
 export default InputField;
