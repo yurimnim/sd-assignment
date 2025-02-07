@@ -1,50 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import InputArea from '../molecules/InputArea';
 import VideoPlayer from '../atoms/VideoPlayer';
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
-import axios from 'axios';
-import io from 'socket.io-client';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-
-// WebSocket 연결
-const socket = io(API_URL);
+import { io, Socket } from 'socket.io-client';
 
 const StreamMainPage = () => {
-  const [value, setValue] = useState('');
-  const [src, setSrc] = useState('');
-  const [loading, setLoading] = useState(false);
+  // 사용자가 InputArea에 입력한 값을 관리하는 state
+  const [inputValue, setInputValue] = useState('');
+  // 실제 스트리밍에 사용할 소스(state)
+  const [activeSource, setActiveSource] = useState<string>('');
+  // 지연시간 상태: 서버로부터 전달받은 latency 값을 저장
   const [latency, setLatency] = useState<number | null>(null);
-  const placeholder = '영상 주소를 입력해주세요.';
+
+  // socket 인스턴스를 저장하기 위한 ref
+  const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    // WebSocket에서 실시간 지연 시간 수신
-    socket.on('latency', ({ delay }) => {
-      setLatency(delay.toFixed(3)); // 소수점 3자리까지 표시
+    const socket = io('http://localhost:8000');
+    socketRef.current = socket;
+  
+    socket.on('connect', () => {
+      console.log('Socket connected with id:', socket.id);
     });
-
+  
+    // latency 이벤트 수신 핸들러
+    socket.on('latency', (data: { ptsTime: number; delay: number }) => {
+      //console.log('Received latency data:', data); // 이 로그가 출력되는지 확인
+      setLatency(data.delay);
+    });
+  
+    socket.on('disconnect', () => {
+      console.log('Socket disconnected');
+    });
+  
     return () => {
-      socket.off('latency');
+      socket.disconnect();
     };
   }, []);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+    setInputValue(event.target.value);
   };
 
-  // 버튼 클릭 시 스트리밍 요청
-  const onClick = async () => {
-    if (!value) return;
-    setLoading(true);
-    try {
-      // API에 영상 소스를 전달하여 스트리밍 URL을 가져옴
-      const response = await axios.post(`${API_URL}/api/stream`, { source: value });
-      setSrc(response.data.streamUrl);
-    } catch (error) {
-      console.error('스트리밍 시작 오류:', error);
-    } finally {
-      setLoading(false);
+  // 전송 버튼 클릭 시, activeSource를 업데이트하고 서버에 스트림 시작 요청
+  const onClick = () => {
+    setActiveSource(inputValue);
+    if (socketRef.current) {
+      socketRef.current.emit('start-stream', inputValue);
     }
   };
 
@@ -53,12 +56,19 @@ const StreamMainPage = () => {
       <Title variant="h3" fontWeight="medium">
         VIDEO STREAMING CLIENT
       </Title>
-      <InputArea value={value} onChange={onChange} placeholder={placeholder} onClick={onClick} />
-      {loading && <StatusText>스트리밍 요청 중...</StatusText>}
-      {src && (
+      <InputArea
+        value={inputValue}
+        onChange={onChange}
+        placeholder="영상 주소를 입력해주세요."
+        onClick={onClick}
+      />
+
+      {activeSource && (
         <>
-          <VideoPlayer src={src} />
-          <LatencyText>지연 시간: {latency ? `${latency} 초` : '측정 중...'}</LatencyText>
+          <VideoPlayer source={activeSource} />
+          <LatencyText>
+            지연 시간: {latency !== null ? `${latency.toFixed(3)} 초` : '측정 중...'}
+          </LatencyText>
         </>
       )}
     </Wrapper>
@@ -79,17 +89,10 @@ const Title = styled(Typography)`
   font-weight: medium;
 `;
 
-const StatusText = styled(Typography)`
-  margin-top: 20px;
-  font-size: 16px;
-  color: #555;
-`;
-
 const LatencyText = styled(Typography)`
   margin-top: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  color: #d9534f; /* Bootstrap danger 색상 */
+  font-size: 14px;
+  color: #777;
 `;
 
 export default StreamMainPage;
