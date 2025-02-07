@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: ./video-streaming-client
+      dockerfile: ../Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./video-streaming-server
+      dockerfile: ../Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./video-streaming-server/public:/home/seadronix/server/public
+    environment:
+      - NODE_ENV=development
+      - PORT=8000
