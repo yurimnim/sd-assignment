@@ -18,9 +18,9 @@ const VideoContainer = styled(Paper)`
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
-  height: 500px;
-  max-height: 700px;
+  max-width: 800px;
+  height: 450px;
+  margin-top: 20px;
   margin: 0 auto;
   border: 1px solid #000;
 
